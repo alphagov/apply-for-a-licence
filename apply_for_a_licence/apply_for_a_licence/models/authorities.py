@@ -28,7 +28,7 @@ class Authority(models.Model):
     authority_url = models.CharField("authorityUrl", max_length=255, blank=True, null=True)
     snac_codes = ArrayField(models.CharField(max_length=255), verbose_name="snacCodes", default=[])
     countries = ArrayField(models.CharField(max_length=255), verbose_name="countries", default=[])
-    encoded_image = models.CharField("imageBase64encoded", blank=True, null=True)
+    encoded_image = models.TextField("imageBase64encoded", blank=True, null=True)
     licence_details = EmbeddedModelArrayField(LicenceDetails, null=False, blank=False, default=[], verbose_name="licenceDetails")
     contact_details = EmbeddedModelArrayField(ContactDetails, null=False, blank=False, default=[], verbose_name="authorityContactDetailsHolder")
 
