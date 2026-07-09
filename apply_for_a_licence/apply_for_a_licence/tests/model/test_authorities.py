@@ -52,6 +52,21 @@ def test_country_validation():
 
         )
         authority.clean_fields()
-    print(e.value.messages)
     assert expected_error_message in e.value.messages
+
+
+def test_valid_authority():
+    authority = Authority(
+        url_slug="test",
+        name="test",
+        full_name="test",
+        agency_id=1,
+        authority_url="",
+        snac_codes=["00AA"],
+        countries=["England", "NI", "Scotland", "Wales"],
+        encoded_image="",
+        licence_details=[LicenceDetails(licence_code="Test", offered_by_authority=False, using_gov_uk=False)],
+        contact_details=ContactDetails(),
+    )
+    authority.full_clean()
 
