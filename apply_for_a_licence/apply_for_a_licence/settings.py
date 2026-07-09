@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-m$@=rf=e6s%v%$85w60+bh^*!^l+q&4hgqm8fv0y3qco%!n_34
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -73,15 +73,9 @@ WSGI_APPLICATION = 'apply_for_a_licence.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-   'mongodb': {
-        'ENGINE': 'django_mongodb_backend',
-        'NAME': 'licensify',
-        'HOST': 'mongodb://localhost:27017',
-    },
     'default': {
-        'ENGINE': 'django_mongodb_backend',
-        'NAME': 'licensify',
-        'HOST': 'mongodb://localhost:27017',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     },
 }
 
