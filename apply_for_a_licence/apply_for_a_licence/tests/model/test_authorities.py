@@ -4,7 +4,8 @@ from django.core.exceptions import ValidationError
 from apply_for_a_licence.models.authorities import Authority, ContactDetails, LicenceDetails
 
 
-def test_snac_codes_validation():
+def test_invalid_snac_code_throws_error():
+    expected_error_message = "Snac codes not valid"
     with pytest.raises(ValidationError) as e:
         authority = Authority(
             url_slug="test",
@@ -27,9 +28,10 @@ def test_snac_codes_validation():
             "contact_details",
             "countries"
             ])
+    assert expected_error_message in e.value.messages
 
 
-def test_country_validation():
+def test_invalid_country_throws_error():
     expected_error_message = "Country is not valid"
     with pytest.raises(ValidationError) as e:
         authority=Authority(
