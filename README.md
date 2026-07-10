@@ -25,7 +25,7 @@ Activate the virtual environment by running ```source .venv/bin/activate``` from
 
 # Testing
 
-Run ```make test``` to run pytest test suite.
+With an activated virtual environment run ```make test``` to run pytest test suite. 
 
 # Licence
 
