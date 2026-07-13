@@ -1,8 +1,8 @@
 import pytest
 from django.core.exceptions import ValidationError
 
-from apply_for_a_licence.enums.countries import Countries
-from apply_for_a_licence.models.licences import AdministrativeArea
+from  common.enums.countries import Countries
+from  common.models.licences import AdministrativeArea
 
 
 def test_valid_admin_area():

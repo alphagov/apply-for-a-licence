@@ -1,2 +1,5 @@
 test:
-	cd apply_for_a_licence && pytest
+	pytest
+
+run_server:
+	python manage.py runserver

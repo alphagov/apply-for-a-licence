@@ -4,8 +4,8 @@ from django.db import models
 from django_mongodb_backend.fields import ObjectIdField, ArrayField, EmbeddedModelArrayField, EmbeddedModelField
 from django_mongodb_backend.models import EmbeddedModel
 
-from apply_for_a_licence.enums.snac_codes import SnacCodes
-from apply_for_a_licence.models.utils import validate_countries
+from common.enums.snac_codes import SnacCodes
+from common.models.utils import validate_countries
 
 
 

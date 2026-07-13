@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django_mongodb_backend.fields import ArrayField, EmbeddedModelField, EmbeddedModelArrayField, ObjectIdField
 from django_mongodb_backend.models import EmbeddedModel
-from apply_for_a_licence.models.utils import validate_countries
+from common.models.utils import validate_countries
 
 
 class AdministrativeArea(EmbeddedModel):
@@ -31,7 +31,7 @@ class LicenceForm(EmbeddedModel):
     form_version = models.IntegerField(db_column="formVersion")
 
 
-class SupportingDocumentDefinition():
+class SupportingDocumentDefinition(EmbeddedModel):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=255, blank=True)
     is_mandatory = models.BooleanField(db_column="isMandatory")
@@ -63,6 +63,9 @@ class Licence(models.Model):
     licence_interactions = EmbeddedModelArrayField(LicenceInteraction, db_column="interactions", default=[])
 #   email templates appears in the model audit, struggling to find any mention of these from the model, seems to be pulled through from the config
 
+    class Meta:
+        db_table = "elmsLicences"
+        managed = False
 
 
 

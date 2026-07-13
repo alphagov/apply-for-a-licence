@@ -1,4 +1,4 @@
-from apply_for_a_licence.enums.countries import Countries
+from common.enums.countries import Countries
 from django.core.exceptions import ValidationError
 
 

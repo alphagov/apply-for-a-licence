@@ -1,7 +1,7 @@
 import pytest
 from django.core.exceptions import ValidationError
 
-from apply_for_a_licence.models.authorities import Authority, ContactDetails, LicenceDetails
+from common.models.authorities import Authority, ContactDetails, LicenceDetails
 
 
 def test_invalid_snac_code_throws_error():
