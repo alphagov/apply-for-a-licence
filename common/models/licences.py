@@ -3,10 +3,10 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django_mongodb_backend.fields import ArrayField, EmbeddedModelField, EmbeddedModelArrayField, ObjectIdField
 from django_mongodb_backend.models import EmbeddedModel
-from common.models.utils import validate_countries
+from common.models.utils import validate_countries, validate_country_code, validate_consent
 from common.enums.tacit_consent import TacitConsent
 from common.enums.interaction_id_codes import InteractionIdCodes
-from models.utils import validate_country_code
+
 
 
 class AdministrativeArea(EmbeddedModel):
@@ -35,9 +35,9 @@ class LicenceForm(EmbeddedModel):
 
 
 class SupportingDocumentDefinition(EmbeddedModel):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, blank=True, default="")
     description = models.CharField(max_length=255, blank=True)
-    is_mandatory = models.BooleanField(db_column="isMandatory", default=False)
+    is_mandatory = models.BooleanField(db_column="isMandatory", default=False, blank=True)
 
 
 class LicenceInteraction(EmbeddedModel):
@@ -47,11 +47,11 @@ class LicenceInteraction(EmbeddedModel):
     display_title = models.CharField(max_length=255, db_column="displayTitle", blank=True, default="")
     form = EmbeddedModelField(LicenceForm, blank=True)
     sub_forms = EmbeddedModelArrayField(LicenceForm, db_column="subForms", blank=True, default=[])
-    supporting_documents = EmbeddedModelArrayField(SupportingDocumentDefinition, db_column="supportingDocuments", default=[])
+    supporting_documents = EmbeddedModelArrayField(SupportingDocumentDefinition, db_column="supportingDocuments", default=[], blank=True)
     fee = EmbeddedModelField(PaymentAmount, blank=True, default=PaymentAmount())
     fee_calculation_instructions = ArrayField(models.TextField(), blank=True, default=[], db_column="feeCalculationInstructions")
     default_declarations = ArrayField(models.TextField(), blank=True, default=[], db_column="defaultDeclarations")
-    tacit_consent = models.CharField(db_column="tacitConsent", max_length=255, blank=True, default=TacitConsent.PERMITTED.value)
+    tacit_consent = models.CharField(db_column="tacitConsent", max_length=255, blank=True, default=TacitConsent.PERMITTED.value, validators=[validate_consent])
 
 
 class Licence(models.Model):
@@ -60,12 +60,10 @@ class Licence(models.Model):
     name = models.CharField(max_length=255, default="")
     legislation_name = ArrayField(models.CharField(max_length=255), blank=True, default=[], db_column="legislationName")
     url_slug = models.SlugField(max_length=255, default="", db_column="urlSlug")
-    local_government_service_list_id = models.IntegerField(default=0, db_column="lgslId")
+    local_government_service_list_id = models.IntegerField(default=InteractionIdCodes.APPLY.value, db_column="lgslId")
     administrative_area = EmbeddedModelField(AdministrativeArea, db_column="administrativeArea", default=AdministrativeArea())
     is_offered_by_county = models.BooleanField(default=False, db_column="offeredByCounty")
     licence_interactions = EmbeddedModelArrayField(LicenceInteraction, db_column="interactions", default=[])
-#   email templates appears in the model audit, struggling to find any mention of these from the models in the scala code,
-    #   seems to be pulled through from the config
 
     class Meta:
         db_table = "elmsLicences"
