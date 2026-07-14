@@ -57,9 +57,9 @@ class Licence(models.Model):
     _id = ObjectIdField(default=bson.ObjectId, auto_created=True, editable=False, primary_key=True)
     licence_code = models.CharField(db_column="licenceCode", max_length=255)
     name = models.CharField(max_length=255, default="")
-    legislation_name = ArrayField(models.CharField(max_length=255), blank=True, default=[], db_column="legislationName")
-    url_slug = models.SlugField(max_length=255, default="", db_column="urlSlug")
-    local_government_service_list_id = models.IntegerField(default=InteractionIdCodes.APPLY.value, db_column="lgslId")
+    legislation_name = ArrayField(models.CharField(max_length=255), db_column="legislationName")
+    url_slug = models.SlugField(max_length=255, db_column="urlSlug")
+    local_government_service_list_id = models.IntegerField(db_column="lgslId")# There exists a csv with these noted down that we could validate against..
     administrative_area = EmbeddedModelField(AdministrativeArea, db_column="administrativeArea", default=AdministrativeArea())
     is_offered_by_county = models.BooleanField(default=False, db_column="offeredByCounty")
     licence_interactions = EmbeddedModelArrayField(LicenceInteraction, db_column="interactions", default=[])
