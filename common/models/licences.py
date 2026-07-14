@@ -68,15 +68,3 @@ class Licence(models.Model):
         db_table = "elmsLicences"
         managed = False
 
-
-
-
-
-
-
-
-
-
-
-
-
