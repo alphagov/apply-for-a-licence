@@ -37,4 +37,13 @@ extend-select = [
     "I",
     "UP",
     "B",
+    "C90",  # mccabe cyclomatic complexity
+    "G",  # flake8-logging-format
+    "T20", # flake8-print
+    "C4",  # flake8-comprehensions
+    "ISC",  # flake8-implicit-str-concat
+    "RSE",  # flake8-raise
+    "PIE",  # flake8-pie
+    "N804",  # First argument of a class method should be named `cls`
+    "RUF100",  # Checks for noqa directives that are no longer applicable
 ]
