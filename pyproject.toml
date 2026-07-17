@@ -21,6 +21,13 @@ dev = [
 [tool.ruff]
 line-length = 120
 
+extend-exclude = [
+    "migrations/versions/",
+    "__pycache__",
+    "cache",
+    "migrations",
+]
+
 [tool.ruff.lint]
 extend-select = [
     "DJ",
