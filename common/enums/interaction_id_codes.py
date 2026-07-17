@@ -1,7 +1,9 @@
 from enum import IntEnum
 
+
 # this may need to become a multi value enum, ID code, and string representation?
-# or second enum, id to string value, scala codebase has a function on the model against a map to capitalise a string and remove "-"
+# or second enum, id to string value,
+# scala codebase has a function on the model against a map to capitalise a string and remove "-"
 class InteractionIdCodes(IntEnum):
     APPLY = 0
     PAY_FOR = 4

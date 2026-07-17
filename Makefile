@@ -1,5 +1,5 @@
 test:
 	pytest
 
-run_server:
-	python manage.py runserver
+format:
+	uv run ruff check --fix && uv run ruff format

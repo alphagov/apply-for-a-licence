@@ -1,11 +1,12 @@
 import bson
 from django.core.exceptions import ValidationError
 from django.db import models
-from django_mongodb_backend.fields import ArrayField, EmbeddedModelField, EmbeddedModelArrayField, ObjectIdField
+from django_mongodb_backend.fields import ArrayField, EmbeddedModelArrayField, EmbeddedModelField, ObjectIdField
 from django_mongodb_backend.models import EmbeddedModel
-from common.models.utils import validate_countries, validate_country_code, validate_consent, validate_interaction_id
-from common.enums.tacit_consent import TacitConsent
+
 from common.enums.interaction_id_codes import InteractionIdCodes
+from common.enums.tacit_consent import TacitConsent
+from common.models.utils import validate_consent, validate_countries, validate_country_code, validate_interaction_id
 
 
 class AdministrativeArea(EmbeddedModel):
@@ -14,7 +15,7 @@ class AdministrativeArea(EmbeddedModel):
     name = models.CharField(max_length=255)
 
     def clean(self):
-        expected_name = ','.join(self.countries)
+        expected_name = ",".join(self.countries)
         name_is_valid = self.name == expected_name
         if not name_is_valid:
             raise ValidationError("Invalid name")
@@ -40,17 +41,29 @@ class SupportingDocumentDefinition(EmbeddedModel):
 
 
 class LicenceInteraction(EmbeddedModel):
-    interaction_id = models.IntegerField(db_column="lgilId", default=InteractionIdCodes.APPLY.value, validators=[validate_interaction_id])
+    interaction_id = models.IntegerField(
+        db_column="lgilId", default=InteractionIdCodes.APPLY.value, validators=[validate_interaction_id]
+    )
     interaction_sub_id = models.IntegerField(db_column="lgilSubId", default=0)
     licence_interaction_name = models.CharField(max_length=255, db_column="licenceInteractionName")
     display_title = models.CharField(max_length=255, db_column="displayTitle", blank=True, default="")
     form = EmbeddedModelField(LicenceForm, blank=True)
     sub_forms = EmbeddedModelArrayField(LicenceForm, db_column="subForms", blank=True, default=[])
-    supporting_documents = EmbeddedModelArrayField(SupportingDocumentDefinition, db_column="supportingDocuments", default=[], blank=True)
+    supporting_documents = EmbeddedModelArrayField(
+        SupportingDocumentDefinition, db_column="supportingDocuments", default=[], blank=True
+    )
     fee = EmbeddedModelField(PaymentAmount, blank=True, default=PaymentAmount())
-    fee_calculation_instructions = ArrayField(models.TextField(), blank=True, default=[], db_column="feeCalculationInstructions")
+    fee_calculation_instructions = ArrayField(
+        models.TextField(), blank=True, default=[], db_column="feeCalculationInstructions"
+    )
     default_declarations = ArrayField(models.TextField(), blank=True, default=[], db_column="defaultDeclarations")
-    tacit_consent = models.CharField(db_column="tacitConsent", max_length=255, blank=True, default=TacitConsent.PERMITTED.value, validators=[validate_consent])
+    tacit_consent = models.CharField(
+        db_column="tacitConsent",
+        max_length=255,
+        blank=True,
+        default=TacitConsent.PERMITTED.value,
+        validators=[validate_consent],
+    )
 
 
 class Licence(models.Model):
@@ -59,8 +72,12 @@ class Licence(models.Model):
     name = models.CharField(max_length=255, default="")
     legislation_name = ArrayField(models.CharField(max_length=255), db_column="legislationName")
     url_slug = models.SlugField(max_length=255, db_column="urlSlug")
-    local_government_service_list_id = models.IntegerField(db_column="lgslId")# There exists a csv with these noted down that we could validate against..
-    administrative_area = EmbeddedModelField(AdministrativeArea, db_column="administrativeArea", default=AdministrativeArea())
+    local_government_service_list_id = models.IntegerField(
+        db_column="lgslId"
+    )  # There exists a csv with these noted down that we could validate against..
+    administrative_area = EmbeddedModelField(
+        AdministrativeArea, db_column="administrativeArea", default=AdministrativeArea()
+    )
     is_offered_by_county = models.BooleanField(default=False, db_column="offeredByCounty")
     licence_interactions = EmbeddedModelArrayField(LicenceInteraction, db_column="interactions", default=[])
 
@@ -68,3 +85,5 @@ class Licence(models.Model):
         db_table = "elmsLicences"
         managed = False
 
+    def __str__(self):
+        return f"{self.licence_code}"

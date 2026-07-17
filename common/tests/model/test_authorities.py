@@ -29,7 +29,7 @@ def test_invalid_country_throws_error():
     expected_error_message = "Invalid country"
 
     with pytest.raises(ValidationError) as e:
-        authority=Authority(
+        authority = Authority(
             url_slug="test",
             name="test",
             agency_id=1,
@@ -38,13 +38,14 @@ def test_invalid_country_throws_error():
             snac_codes=["00AA"],
             countries=["TEST"],
             encoded_image="",
-            licence_details=[LicenceDetails(
-                licence_code="Test",
-                offered_by_authority=True,
-                using_gov_uk=True,
-                authority_url="",
-
-            )],
+            licence_details=[
+                LicenceDetails(
+                    licence_code="Test",
+                    offered_by_authority=True,
+                    using_gov_uk=True,
+                    authority_url="",
+                )
+            ],
             contact_details=ContactDetails(),
         )
 
@@ -68,6 +69,7 @@ def test_snac_codes_can_be_empty():
     )
     authority.full_clean()
 
+
 def test_valid_authority():
     authority = Authority(
         url_slug="test",
@@ -82,4 +84,3 @@ def test_valid_authority():
         contact_details=ContactDetails(),
     )
     authority.full_clean()
-
