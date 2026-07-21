@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -77,7 +77,9 @@ DOCUMENTDB_USER = os.getenv("DOCUMENTDB_USER", "docdb")
 DOCUMENTDB_PASSWORD = os.getenv("DOCUMENTDB_PASSWORD", "password")
 DOCUMENTDB_PORT = os.getenv("DOCUMENTDB_PORT", "10260")
 DOCUMENTDB_HOST = os.getenv("DOCUMENTDB_HOST", "localhost")
-DOCUMENTDB_CONN_ARGS = "tls=true&tlsAllowInvalidCertificates=true" if os.getenv("DOCUMENTDB_ALLOW_INVALID_CERTS") else "tls=true"
+DOCUMENTDB_CONN_ARGS = (
+    "tls=true&tlsAllowInvalidCertificates=true" if os.getenv("DOCUMENTDB_ALLOW_INVALID_CERTS") else "tls=true"
+)
 
 DATABASES = {
     "default": {
