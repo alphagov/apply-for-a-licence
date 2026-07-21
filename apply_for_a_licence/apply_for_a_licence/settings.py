@@ -76,7 +76,7 @@ DATABASES = {
     "default": {
         "ENGINE": "django_mongodb_backend",
         "NAME": "licensify",
-        "HOST": "mongodb://demo:test@localhost:10260",
+        "HOST": "mongodb://demo:test@localhost:10260?tls=true&tlsAllowInvalidCertificates=true",
     },
 }
 
