@@ -47,7 +47,7 @@ class LicenceInteraction(EmbeddedModel):
     interaction_sub_id = models.IntegerField(db_column="lgilSubId", default=0)
     licence_interaction_name = models.CharField(max_length=255, db_column="licenceInteractionName")
     display_title = models.CharField(max_length=255, db_column="displayTitle", blank=True, default="")
-    form = EmbeddedModelField(LicenceForm, blank=True)
+    form = EmbeddedModelField(LicenceForm, blank=True, null=True)
     sub_forms = EmbeddedModelArrayField(LicenceForm, db_column="subForms", blank=True, default=[])
     supporting_documents = EmbeddedModelArrayField(
         SupportingDocumentDefinition, db_column="supportingDocuments", default=[], blank=True
